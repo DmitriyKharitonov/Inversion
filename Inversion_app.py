@@ -3,7 +3,7 @@ from inversion_v2 import *
 from PIL import ImageTk, Image
 from tkinter import filedialog
 import os
-
+import datetime
 
 class App:
     def __init__(self):
@@ -11,11 +11,13 @@ class App:
         self.root.geometry("840x840")
         self.root.resizable(width=True, height=True)
         self.btn = Button(self.root, text='open image',
-                          command=self.open_img).place(x=280, y=0)
+                          command=self.open_img).place(x=200, y=0)
         self.btn2 = Button(self.root, text='inversion',
-                           command=self.inv).place(x=400, y=0)
+                           command=self.inv).place(x=320, y=0)
         self.btn3 = Button(self.root, text = 'reset_photo',
-                           command = self.reset_photo).place(x=500, y = 0)
+                           command = self.reset_photo).place(x=420, y = 0)
+        self.btn4 = Button(self.root, text = 'save_photo',
+                           command = self.save_photo).place(x=520, y = 0)
         self.res = 0
         self.radius = 50
         self.inversion_radius = self.radius
@@ -32,6 +34,7 @@ class App:
     def openfn(self):
         filename = filedialog.askopenfilename(title='open')
         return filename
+
 
     def open_img(self):
         x = self.openfn()
@@ -75,13 +78,13 @@ class App:
         except:
             pass
 
-        self.x_coordinate = event.x
-        self.y_coordinate = event.y
+        self.x_coordinate = event.y
+        self.y_coordinate = event.x
 
         self.inv()
 
         point = self.canvas.create_oval(
-            event.x+5, event.y+5, event.x-5, event.y-5, outline="#8B0000", fill="#8B0000")
+            event.x+2, event.y+2, event.x-2, event.y-2, outline="#8B0000", fill="#8B0000")
 
     def change_inversion_radius(self, event):
         if event.delta == 120:
@@ -91,12 +94,16 @@ class App:
         if event.delta == -120:
             self.radius = self.radius - 20
             self.inversion_radius = self.radius
-            motion(event)
+            self.motion(event)
 
     def reset_photo(self):
         self.img = Image.open("Photo.jpg")
         self.res = plt.imread("Photo.jpg")
         self.img = ImageTk.PhotoImage(self.img)
         self.canvas.create_image(0, 0, anchor="nw", image=self.img)
+
+    def save_photo(self):
+        img_to_save = Image.fromarray(self.res)
+        img_to_save.save("Photo_" + str(datetime.datetime.now().time()).split(".")[0].replace(":", "_")+".jpg")
 
 app = App()
