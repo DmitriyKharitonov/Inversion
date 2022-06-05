@@ -13,11 +13,11 @@ class App:
         self.btn = Button(self.root, text='open image',
                           command=self.open_img).place(x=200, y=0)
         self.btn2 = Button(self.root, text='inversion',
-                           command=self.inv).place(x=320, y=0)
+                           command=self.inv).place(x=330, y=0)
         self.btn3 = Button(self.root, text = 'reset_photo',
-                           command = self.reset_photo).place(x=420, y = 0)
+                           command = self.reset_photo).place(x=430, y = 0)
         self.btn4 = Button(self.root, text = 'save_photo',
-                           command = self.save_photo).place(x=520, y = 0)
+                           command = self.save_photo).place(x=530, y = 0)
         self.res = 0
         self.radius = 50
         self.inversion_radius = self.radius
